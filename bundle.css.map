@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "../App.svelte",
+    "../Button.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n  import { createMachine, assign } from \"xstate\";\n  import { useMachine } from \"./useMachine\";\n  import Button from \"./Button.svelte\";\n\n  const toggleMachine = createMachine({\n    id: \"toggle\",\n    initial: \"inactive\",\n    context: {\n      count: 0\n    },\n    states: {\n      inactive: {\n        on: { TOGGLE: \"active\" }\n      },\n      active: {\n        entry: assign({ count: ctx => ctx.count + 1 }),\n        on: { TOGGLE: \"inactive\" }\n      }\n    }\n  });\n\n  const { state, send } = useMachine(toggleMachine);\n\n  $: active = $state.matches(\"active\");\n  $: count = $state.context.count;\n</script>\n\n<style>\n  main {\n    font-family: sans-serif;\n    text-align: center;\n  }\n</style>\n\n<main>\n  <h1>XState Svelte Template</h1>\n  <h2>Fork this template!</h2>\n  <button on:click={() => send(\"TOGGLE\")}>\n    Click me ({active ? \"✅\" : \"❌\"})\n  </button>{\" \"}\n  <code>\n    Toggled <strong>{count}</strong> times\n  </code>\n</main>",
+    "<script>\n\tlet count = 0;\n\n\tfunction handleClick() {\n\t  count += 1;\n\t}\n</script>\n\n<style>\n\tbutton {\n\t  background: #ff3e00;\n\t  color: white;\n\t  border: none;\n\t  padding: 8px 12px;\n\t  border-radius: 2px;\n\t}\n</style>\n\n<button on:click={handleClick}>\n  Clicked {count} {count === 1 ? 'time' : 'times'}\n</button>"
+  ],
+  "names": [],
+  "mappings": "AA6BE,IAAI,eAAC,CAAC,AACJ,WAAW,CAAE,UAAU,CACvB,UAAU,CAAE,MAAM,AACpB,CAAC;ACvBF,MAAM,eAAC,CAAC,AACN,UAAU,CAAE,OAAO,CACnB,KAAK,CAAE,KAAK,CACZ,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,GAAG,CAAC,IAAI,CACjB,aAAa,CAAE,GAAG,AACpB,CAAC"
+}
